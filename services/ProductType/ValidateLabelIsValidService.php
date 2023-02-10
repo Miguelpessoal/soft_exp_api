@@ -1,12 +1,12 @@
 <?php 
     class ValidateLabelIsValidService
     {
-        public static function handle($param)
+        public static function handle($data)
         {
             $db = DB::connect();
         
             $findLabel = $db->prepare("SELECT * FROM product_types WHERE label = :label"); 
-            $findLabel->bindParam(':label', $_POST['label']);
+            $findLabel->bindParam(':label', $data);
             $findLabel->execute();
             $existsThisProductType = $findLabel->fetchObject();
             
