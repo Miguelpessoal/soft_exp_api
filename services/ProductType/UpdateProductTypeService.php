@@ -1,5 +1,5 @@
 <?php 
-    class ValidateUpdateProductTypeService
+    class UpdateProductTypeService
     {
         public static function handle($data, $param)
         {

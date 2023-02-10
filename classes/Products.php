@@ -1,15 +1,15 @@
-<?php
+<?php 
     include_once "RequestContent.php";
-    include_once "services/ProductType/UpdateProductTypeService.php";
-    include_once "services/ProductType/ValidateDeleteProductTypeService.php";
-    include_once "services/ProductType/ValidateLabelIsValidService.php";
+    include_once "services/Product/ValidateProductDataService.php";
+    include_once "services/Product/UpdateProductTypeService.php";
+    include_once "services/Product/ValidateDeleteProductService.php";
     
-    class ProductTypes
+    class Products
     {
         public function index()
         {
             $db = DB::connect();
-            $request = $db->prepare("SELECT * FROM product_types ORDER BY id");
+            $request = $db->prepare("SELECT * FROM products ORDER BY id");
             $request->execute();
             
             $data = $request->fetchAll(PDO::FETCH_ASSOC);
@@ -22,9 +22,9 @@
         }
         
         public function show($param)
-        {
+        {   
             $db = DB::connect();
-            $request = $db->prepare("SELECT * FROM product_types WHERE id = :id"); 
+            $request = $db->prepare("SELECT * FROM products WHERE id = :id"); 
             $request->bindParam(':id', $param);
             $request->execute();
                     
@@ -43,11 +43,12 @@
             $db = DB::connect();
             $data = RequestContent::handle();
             
-            ValidateLabelIsValidService::handle($data['label']);
+            ValidateProductDataService::handle($data);
             
-            $request = $db->prepare("INSERT INTO product_types(label, tax_value) VALUES (:label, :tax_value)"); 
+            $request = $db->prepare("INSERT INTO product(label, product_type_id, price) VALUES (:label, :product_type_id, :price)"); 
             $request->bindParam(':label', $data['label'],PDO::PARAM_STR);
-            $request->bindParam(':tax_value', $data['tax_value'], PDO::PARAM_STR);
+            $request->bindParam(':product_type_id', $data['product_type_id'],PDO::PARAM_INT);
+            $request->bindParam(':price', $data['price'], PDO::PARAM_STR);
             $response = $request->execute();
         
             if ($response) {
@@ -62,19 +63,20 @@
         public function update($param)
         {
            $data = RequestContent::handle();
-    
-           ValidateLabelIsValidService::handle($data['label']);
            
-           UpdateProductTypeService::handle($data, $param);
+           ValidateProductDataService::handle($data);
+           
+           UpdateProductService::handle($param, $data);
         }
+        
         
         public function delete($param)
         {
             $db = DB::connect();
+            
+            ValidateDeleteProductService::handle($param);
                             
-            ValidateDeleteProductTypeService::handle($param);
-                            
-            $request = $db->prepare("DELETE FROM product_types WHERE id = :id"); 
+            $request = $db->prepare("DELETE FROM products WHERE id = :id"); 
             $request->bindParam(':id', $param);
             $response = $request->execute();
             
