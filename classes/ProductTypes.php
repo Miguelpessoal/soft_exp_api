@@ -1,8 +1,8 @@
 <?php
     include_once "RequestContent.php";
-    include_once "services/ProductType/UpdateProductTypeService.php";
-    include_once "services/ProductType/ValidateDeleteProductTypeService.php";
-    include_once "services/ProductType/ValidateLabelIsValidService.php";
+    include_once "services/UpdateProductTypeService.php";
+    include_once "services/ValidateDeleteProductTypeService.php";
+    include_once "services/ValidateLabelIsValidService.php";
     
     class ProductTypes
     {

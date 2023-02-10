@@ -1,8 +1,8 @@
 <?php 
     include_once "RequestContent.php";
-    include_once "services/Product/ValidateProductDataService.php";
-    include_once "services/Product/UpdateProductTypeService.php";
-    include_once "services/Product/ValidateDeleteProductService.php";
+    include_once "services/ValidateProductDataService.php";
+    include_once "services/UpdateProductService.php";
+    include_once "services/ValidateDeleteProductService.php";
     
     class Products
     {
@@ -45,7 +45,7 @@
             
             ValidateProductDataService::handle($data);
             
-            $request = $db->prepare("INSERT INTO product(label, product_type_id, price) VALUES (:label, :product_type_id, :price)"); 
+            $request = $db->prepare("INSERT INTO products(label, product_type_id, price) VALUES (:label, :product_type_id, :price)"); 
             $request->bindParam(':label', $data['label'],PDO::PARAM_STR);
             $request->bindParam(':product_type_id', $data['product_type_id'],PDO::PARAM_INT);
             $request->bindParam(':price', $data['price'], PDO::PARAM_STR);
@@ -66,7 +66,7 @@
            
            ValidateProductDataService::handle($data);
            
-           UpdateProductService::handle($param, $data);
+           UpdateProductService::handle($data, $param);
         }
         
         
