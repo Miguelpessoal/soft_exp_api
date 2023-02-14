@@ -2,7 +2,7 @@
     include_once "RequestContent.php";
     include_once "services/ValidateDeleteAcquisitionService.php";
     
-    class Products
+    class Acquisitions
     {
         public function index()
         {
