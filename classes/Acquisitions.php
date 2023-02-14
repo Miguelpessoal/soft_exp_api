@@ -41,7 +41,7 @@
             $db = DB::connect();
             $data = RequestContent::handle();
             
-            $request = $db->prepare("INSERT INTO acquisitions(products_total_value, tax_total_value, acquisition_final_value) VALUES (:label, :product_type_id, :price)"); 
+            $request = $db->prepare("INSERT INTO acquisitions(products_total_value, tax_total_value, acquisition_final_value) VALUES (:products_total_value, :tax_total_value, :acquisition_final_value)"); 
             $request->bindParam(':products_total_value', $data['products_total_value'],PDO::PARAM_STR);
             $request->bindParam(':tax_total_value', $data['tax_total_value'],PDO::PARAM_STR);
             $request->bindParam(':acquisition_final_value', $data['acquisition_final_value'], PDO::PARAM_STR);
